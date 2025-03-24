@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Generated MCP",
+  "name_for_model": "generated_mcp",
+  "description_for_human": "Auto-generated Model Control Protocol from OpenAPI",
+  "description_for_model": "Auto-generated Model Control Protocol from OpenAPI\n\nThis plugin provides the following capabilities:\n- listPets: List all pets\n- createPet: Create a pet\n- getPetById: Info for a specific pet\n- deletePet: Delete a pet\n\nThe plugin also provides access to system state information via the /state endpoint.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.example.com/openapi.yaml"
+  },
+  "logo_url": "https://api.example.com/logo.png",
+  "contact_email": "contact@example.com",
+  "legal_info_url": "https://api.example.com/legal"
+}

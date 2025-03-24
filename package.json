@@ -33,6 +33,26 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "zod": "^3.21.0",
+    "openai": "^4.28.0", 
+    "@anthropic-ai/sdk": "^0.18.0"
+  },
+  "peerDependenciesMeta": {
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    },
+    "zod": {
+      "optional": true
+    },
+    "openai": {
+      "optional": true
+    },
+    "@anthropic-ai/sdk": {
+      "optional": true
+    }
+  },
   "files": [
     "dist",
     "LICENSE",

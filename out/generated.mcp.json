@@ -3,7 +3,7 @@
   "description": "Auto-generated Model Control Protocol from OpenAPI",
   "version": "1.0.0",
   "metadata": {
-    "generatedAt": "2025-03-24T05:02:21.920Z",
+    "generatedAt": "2025-03-24T07:19:15.095Z",
     "source": "OpenAPI 3.0",
     "sourceFile": "petstore.yaml"
   },

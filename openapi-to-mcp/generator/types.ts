@@ -11,6 +11,7 @@ export type StateSchema = {
   type: string;
   properties: Record<string, any>;
   example?: any;
+  endpoint?: string;
 };
 
 export type MCPJson = {

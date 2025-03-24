@@ -15,6 +15,21 @@ This tool converts OpenAPI/Swagger specifications into Model Control Protocol (M
   - 📜 Prompt instructions with state information
   - 🧱 JSON action templates with getState action
   - 🔧 Function schemas with getState function (OpenAI compatible)
+  - 🚀 MCP server TypeScript file compatible with Claude Desktop
+  - 🔌 Standalone executor for API interaction (LangChain/Web compatible)
+  - 📂 Plug-and-play handler files with README
+  - 🔗 LangChain tools with argsSchema and toolloader
+  - 🔌 OpenAI plugin manifest with deployment instructions
+- 🧪 Simulation mode for testing without backend changes
+
+## Use Cases
+
+- **Build Claude Desktop-compatible tools in seconds** — Generate an MCP server that works directly with Claude
+- **Turn any OpenAPI spec into LangChain/AutoGPT tools** — Use the executor or LangChain tools for AI interfaces in any framework
+- **Power AI interfaces for existing microservices** — No backend changes required, works with existing APIs
+- **Create ChatGPT plugins effortlessly** — Generate OpenAI plugin manifests with proper schemas
+- **Prototype AI agents with minimal setup** — Use simulation mode to test AI interaction with your API
+- **Create custom handler logic** — Extend handlers with preprocessing, caching, or business logic
 
 ## Installation
 
@@ -38,8 +53,29 @@ openapi-to-mcp path/to/swagger.yaml -o ./custom-output
 # Generate only specific formats
 openapi-to-mcp path/to/swagger.yaml --prompt --functions
 
+# Generate MCP server for Claude Desktop
+openapi-to-mcp path/to/swagger.yaml --server --api-url https://your-api.com
+
+# Generate standalone executor for any framework
+openapi-to-mcp path/to/swagger.yaml --executor --api-url https://your-api.com
+
+# Generate individual handler files for customization
+openapi-to-mcp path/to/swagger.yaml --handlers --api-url https://your-api.com
+
+# Generate LangChain tools for your API
+openapi-to-mcp path/to/swagger.yaml --langchain --api-url https://your-api.com
+
+# Generate OpenAI plugin manifest files
+openapi-to-mcp path/to/swagger.yaml --openai-plugin --api-url https://your-api.com
+
 # Specify a particular endpoint for state schema
 openapi-to-mcp path/to/swagger.yaml --state-endpoint /status
+
+# Simulate AI interaction with your API
+openapi-to-mcp path/to/swagger.yaml --simulate "list all available pets" --api-url https://your-api.com
+
+# Simulate using Claude instead of OpenAI (default)
+openapi-to-mcp path/to/swagger.yaml --simulate "add a new pet" --provider claude --api-url https://your-api.com
 
 # See all options
 openapi-to-mcp --help
@@ -49,45 +85,111 @@ openapi-to-mcp --help
 
 Running the generator creates the following files:
 
-- `generated.mcp.json`: The complete MCP JSON file with actions and state schema
-- `prompt.txt`: Text instructions for AI models, including state information
-- `templates.json`: JSON templates for each action, plus a getState action
-- `functionSchemas.json`: OpenAI-compatible function schemas, with a getState function
+- `generated.mcp.json`: The MCP specification for your API
+- `prompt.txt`: Prompt instructions for LLMs
+- `templates.json`: JSON action templates
+- `functionSchemas.json`: OpenAI-compatible function schemas
+- `mcp-server.ts`: Ready-to-use TypeScript MCP server implementation for Claude Desktop
+- `executor.ts`: Standalone executor for using API actions in any framework
+- `handlers/`: Directory with individual handler implementations for each action
+- `langchain-tools.ts`: Ready-to-use LangChain tools with Zod validation
+- `langchain-toolloader.ts`: Helper for selective tool loading
+- `.well-known/ai-plugin.json`: OpenAI plugin manifest file
+- `OPENAI-PLUGIN-README.md`: Deployment instructions for the OpenAI plugin
 
-## Example Output
+## Using the Generated Files
 
-### Prompt (prompt.txt)
+### MCP Server for Claude Desktop
 
-```
-You are an agent controlling an API. Here are the available actions:
+1. Install dependencies: `npm install @modelcontextprotocol/sdk zod`
+2. Compile the server: `tsc mcp-server.ts --esModuleInterop --module nodenext`
+3. Run with Claude Desktop: `claude tools register mcp-server.js`
 
+### Standalone Executor
 
-- listPets (GET /pets): limit
-- createPet (POST /pets): id, name, tag
-- getPetById (GET /pets/{petId}): petId
-- deletePet (DELETE /pets/{petId}): petId
+```typescript
+// Example usage with any framework
+import { ApiExecutor } from "./executor";
 
-System State Information:
-The system maintains a state that can be queried. The state structure is:
-List all pets (array of items)
+async function main() {
+  const api = new ApiExecutor("https://your-api.com");
 
-Example state:
-[
-  {
-    "id": 0,
-    "name": "example",
-    "tag": "example"
-  }
-]
+  // Get API state
+  const state = await api.getState();
+  console.log("Current state:", state);
 
-You should return commands in JSON format, for example:
-{
-  "action": "listPets",
-  "params": {
-    "limit": "integer"
-  }
+  // Execute an action
+  const result = await api.execute("listPets", { limit: 10 });
+  console.log("Pets:", result);
 }
 ```
+
+### LangChain Tools
+
+```typescript
+// Example usage with LangChain
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import { AgentExecutor, createStructuredChatAgent } from "langchain/agents";
+import { loadTools } from "./langchain-toolloader";
+
+async function main() {
+  const model = new ChatOpenAI({
+    temperature: 0,
+    modelName: "gpt-4-turbo",
+  });
+
+  // Load all tools or specify which ones to load
+  const tools = loadTools(["listPets", "getPet", "getState"]);
+
+  const agent = createStructuredChatAgent({
+    llm: model,
+    tools,
+  });
+
+  const agentExecutor = new AgentExecutor({
+    agent,
+    tools,
+  });
+
+  const result = await agentExecutor.invoke({
+    input:
+      "What pets are available and can you show me details of pet with ID 1?",
+  });
+
+  console.log(result.output);
+}
+```
+
+### OpenAI Plugin
+
+Follow the instructions in `OPENAI-PLUGIN-README.md` to deploy your OpenAI plugin:
+
+1. Host your API on a public server
+2. Copy the `.well-known/ai-plugin.json` to your server
+3. Ensure your OpenAPI spec is available at the URL specified in the plugin manifest
+4. Register your plugin with OpenAI
+
+### Simulation Mode
+
+Simulation mode lets you test AI interaction with your API without requiring setup:
+
+```bash
+# Set your API key (required for simulation)
+export OPENAI_API_KEY=your_key_here
+# Or for Claude
+export CLAUDE_API_KEY=your_key_here
+
+# Run a simulation
+openapi-to-mcp path/to/swagger.yaml --simulate "find pets with tag 'dog'" --api-url https://pet-api.com
+```
+
+This will:
+
+1. Parse your OpenAPI spec
+2. Generate necessary handler files
+3. Send the request to the LLM with function schemas
+4. Execute API call via the executor
+5. Return the LLM's final response with data
 
 ## State Integration
 
@@ -97,6 +199,10 @@ The tool integrates state information into all exports:
 2. **Prompt Text**: Describes the state structure and provides an example
 3. **Function Schemas**: Adds a `getState` function for retrieving the current state
 4. **Action Templates**: Includes a `getState` action with empty parameters
+5. **Executor**: Includes a `getState()` method for retrieving current state
+6. **Handler Files**: Includes a `getState.ts` handler file
+7. **LangChain Tools**: Includes a `getState` tool for retrieving current state
+8. **OpenAI Plugin**: Includes state description in the plugin manifest
 
 ## State Schema Detection
 
@@ -124,7 +230,13 @@ openapi-to-mcp/
 │   ├── exporters/
 │   │   ├── toPrompt.ts
 │   │   ├── toFunctionSchemas.ts
-│   │   └── toTemplates.ts
+│   │   ├── toTemplates.ts
+│   │   ├── generateMcpServer.ts
+│   │   ├── generateExecutor.ts
+│   │   ├── generateHandlers.ts
+│   │   ├── simulate.ts
+│   │   ├── toLangChainTools.ts
+│   │   └── toOpenAIPlugin.ts
 ```
 
 ## Development and Publishing
@@ -164,12 +276,15 @@ openapi-to-mcp/
 This project uses GitHub Actions for CI/CD to automatically publish new versions to npm when a new tag is pushed:
 
 1. Update version in package.json:
+
    ```bash
    npm version patch   # or minor/major
    ```
+
    This will automatically create a git tag.
 
 2. Push the new tag to GitHub:
+
    ```bash
    git push origin --tags
    ```

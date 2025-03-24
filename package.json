@@ -8,7 +8,7 @@
     "mcp-gen": "dist/mcp-gen/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && chmod +x dist/mcp-gen/index.js",
     "start": "ts-node mcp-gen/index.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
@@ -34,6 +34,9 @@
     "typescript": "^5.8.2"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md",
+    "CONTRIBUTING.md"
   ]
 }

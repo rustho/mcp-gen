@@ -184,6 +184,10 @@ If you fork this project, you'll need to set up your own npm publishing:
 2. Add this token to your GitHub repository as a secret named `NPM_TOKEN`
 3. Update the package name in package.json to avoid conflicts
 
+## Contributing
+
+We welcome contributions from the community! Please read our [contribution guidelines](CONTRIBUTING.md) before submitting a pull request.
+
 ## License
 
 [ISC](LICENSE) © 2025 [Rustho](https://github.com/rustho). Free to use, modify and distribute.

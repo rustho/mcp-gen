@@ -9,6 +9,7 @@ mcp-gen/
 .gitignore
 tsconfig.json
 node_modules/
+PUBLISHING.md
 
 # Examples
 mcp-gen/examples/

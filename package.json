@@ -1,6 +1,6 @@
 {
   "name": "openapi-to-mcp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Model Control Protocol generator from OpenAPI/Swagger specifications",
   "main": "dist/openapi-to-mcp/index.js",
   "types": "dist/openapi-to-mcp/index.d.ts",
@@ -36,7 +36,7 @@
   "peerDependencies": {
     "@modelcontextprotocol/sdk": "^0.4.0",
     "zod": "^3.21.0",
-    "openai": "^4.28.0", 
+    "openai": "^4.28.0",
     "@anthropic-ai/sdk": "^0.18.0"
   },
   "peerDependenciesMeta": {

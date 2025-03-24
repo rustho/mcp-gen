@@ -1,0 +1,32 @@
+[
+  {
+    "action": "listPets",
+    "params": {
+      "limit": "integer"
+    }
+  },
+  {
+    "action": "createPet",
+    "params": {
+      "id": "integer",
+      "name": "string",
+      "tag": "string"
+    }
+  },
+  {
+    "action": "getPetById",
+    "params": {
+      "petId": "string"
+    }
+  },
+  {
+    "action": "deletePet",
+    "params": {
+      "petId": "string"
+    }
+  },
+  {
+    "action": "getState",
+    "params": {}
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "name": "listPets",
+    "description": "List all pets",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "limit"
+      ]
+    }
+  },
+  {
+    "name": "createPet",
+    "description": "Create a pet",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "tag"
+      ]
+    }
+  },
+  {
+    "name": "getPetById",
+    "description": "Info for a specific pet",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "petId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "petId"
+      ]
+    }
+  },
+  {
+    "name": "deletePet",
+    "description": "Delete a pet",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "petId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "petId"
+      ]
+    }
+  },
+  {
+    "name": "getState",
+    "description": "Get the current system state. List all pets",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  }
+]

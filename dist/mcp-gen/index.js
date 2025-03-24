@@ -1,14 +1,5 @@
 #!/usr/bin/env node
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -36,7 +27,7 @@ program
     .option("--mcp", "Generate MCP JSON file")
     .option("--all", "Generate all export formats")
     .option("--state-endpoint <path>", "Specify a specific GET endpoint to use for state schema (e.g. /status)")
-    .action((swaggerFile, options) => __awaiter(void 0, void 0, void 0, function* () {
+    .action(async (swaggerFile, options) => {
     try {
         const outputDir = options.output;
         // Create output directory if it doesn't exist
@@ -44,7 +35,7 @@ program
             fs_1.default.mkdirSync(outputDir, { recursive: true });
         }
         console.log(`📥 Parsing Swagger file: ${swaggerFile}`);
-        const api = yield (0, parser_1.parseSwagger)(swaggerFile);
+        const api = await (0, parser_1.parseSwagger)(swaggerFile);
         console.log("🔍 Extracting actions from API spec");
         const actions = (0, extractor_1.extractActions)(api);
         console.log(`✅ Found ${actions.length} API actions`);
@@ -84,6 +75,6 @@ program
         console.error(`❌ Error: ${error.message}`);
         process.exit(1);
     }
-}));
+});
 program.parse();
 //# sourceMappingURL=index.js.map

@@ -8,7 +8,11 @@ function buildMCPJson(api, actions, metadata = {}, stateEndpoint) {
         name: "Generated MCP",
         description: "Auto-generated Model Control Protocol from OpenAPI",
         version: "1.0.0",
-        metadata: Object.assign({ generatedAt: new Date().toISOString(), source: "OpenAPI 3.0" }, metadata),
+        metadata: {
+            generatedAt: new Date().toISOString(),
+            source: "OpenAPI 3.0",
+            ...metadata
+        },
         promptTemplate: {
             language: "en",
             style: "instructive",

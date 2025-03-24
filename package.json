@@ -1,6 +1,6 @@
 {
   "name": "mcp-gen",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Model Control Protocol generator from OpenAPI/Swagger specifications",
   "main": "dist/mcp-gen/index.js",
   "types": "dist/mcp-gen/index.d.ts",
@@ -10,17 +10,20 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node mcp-gen/index.ts",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && node dist/mcp-gen/index.js --help"
   },
   "keywords": [
     "mcp",
     "swagger",
     "openapi",
     "ai",
-    "llm"
+    "llm",
+    "agents",
+    "prompt"
   ],
-  "author": "",
+  "author": "Rustho",
   "license": "ISC",
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.1",
@@ -29,5 +32,8 @@
   "devDependencies": {
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

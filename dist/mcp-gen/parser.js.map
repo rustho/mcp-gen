@@ -1,1 +1,1 @@
-{"version":3,"file":"parser.js","sourceRoot":"","sources":["../../mcp-gen/parser.ts"],"names":[],"mappings":";;;;;;;;;;;;;;AAEA,oCAGC;AALD,iFAAwD;AAExD,SAAsB,YAAY,CAAC,QAAgB;;QACjD,MAAM,GAAG,GAAG,MAAM,wBAAa,CAAC,WAAW,CAAC,QAAQ,CAAC,CAAC;QACtD,OAAO,GAAG,CAAC;IACb,CAAC;CAAA"}
+{"version":3,"file":"parser.js","sourceRoot":"","sources":["../../mcp-gen/parser.ts"],"names":[],"mappings":";;;;;AAEA,oCAGC;AALD,iFAAwD;AAEjD,KAAK,UAAU,YAAY,CAAC,QAAgB;IACjD,MAAM,GAAG,GAAG,MAAM,wBAAa,CAAC,WAAW,CAAC,QAAQ,CAAC,CAAC;IACtD,OAAO,GAAG,CAAC;AACb,CAAC"}

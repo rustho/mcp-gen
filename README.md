@@ -127,6 +127,63 @@ mcp-gen/
 │   │   └── toTemplates.ts
 ```
 
+## Development and Publishing
+
+### Local Development
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Build the project:
+   ```bash
+   npm run build
+   ```
+4. Run locally:
+   ```bash
+   npm start -- path/to/swagger.yaml
+   ```
+
+### Publishing to npm
+
+#### Manual Publishing
+
+1. Log in to npm:
+   ```bash
+   npm login
+   ```
+2. Build and publish:
+   ```bash
+   npm run build
+   npm publish --access public
+   ```
+
+#### Automated Publishing via GitHub Actions
+
+This project uses GitHub Actions for CI/CD to automatically publish new versions to npm when a new tag is pushed:
+
+1. Update version in package.json:
+   ```bash
+   npm version patch   # or minor/major
+   ```
+   This will automatically create a git tag.
+
+2. Push the new tag to GitHub:
+   ```bash
+   git push origin --tags
+   ```
+
+3. The GitHub Action will trigger and publish the new version to npm.
+
+### Setting up CI/CD for Your Fork
+
+If you fork this project, you'll need to set up your own npm publishing:
+
+1. Create an npm account and get an access token from npmjs.com → Access Tokens
+2. Add this token to your GitHub repository as a secret named `NPM_TOKEN`
+3. Update the package name in package.json to avoid conflicts
+
 ## License
 
-[ISC](LICENSE) © 2025 (Rustho)[https://github.com/rustho]. Free to use, modify and distribute.
+[ISC](LICENSE) © 2025 [Rustho](https://github.com/rustho). Free to use, modify and distribute.

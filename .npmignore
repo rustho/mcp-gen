@@ -1,0 +1,22 @@
+# Source files
+mcp-gen/
+*.ts
+!*.d.ts
+
+# Development files
+.git/
+.github/
+.gitignore
+tsconfig.json
+node_modules/
+
+# Examples
+mcp-gen/examples/
+
+# Editor specific files
+.vscode/
+.idea/
+
+# Misc
+*.log
+.DS_Store 

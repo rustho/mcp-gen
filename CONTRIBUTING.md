@@ -30,8 +30,14 @@ Keep code clean, readable, and well-commented.
 
 ### 6. Run tests / build
 ```bash
+# Build all packages
 npm run build
-npm test
+
+# Test the core package
+npm test --workspace=openapi-to-mcp
+
+# Start the playground for testing
+npm run dev --workspace=openapi-to-mcp-playground
 ```
 
 ### 7. Commit and push
@@ -51,6 +57,20 @@ Go to GitHub, open a PR from your branch, describe the change, and wait for revi
 - Follow the TypeScript style already used
 - If you add a new feature — add an example if possible
 - Be kind and respectful in discussions
+
+## 📦 Project Structure
+
+This is a monorepo containing two packages:
+
+- `packages/core`: The main OpenAPI-to-MCP CLI tool and library
+  - Contains the core functionality for converting OpenAPI specs to MCP format
+  - Includes CLI interface and all export formats
+  - Located in `packages/core/`
+
+- `packages/playground`: A web application for testing the tool
+  - Provides a browser-based interface for testing the tool
+  - Built with Next.js and Tailwind CSS
+  - Located in `packages/playground/`
 
 ## 💬 Need help?
 

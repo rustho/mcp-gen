@@ -1,18 +1,15 @@
 {
-  "name": "openapi-to-mcp",
+  "name": "openapi-to-mcp-monorepo",
   "version": "0.1.6",
-  "description": "Model Control Protocol generator from OpenAPI/Swagger specifications",
-  "main": "dist/openapi-to-mcp/index.js",
-  "types": "dist/openapi-to-mcp/index.d.ts",
-  "bin": {
-    "openapi-to-mcp": "dist/openapi-to-mcp/index.js"
-  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "tsc && chmod +x dist/openapi-to-mcp/index.js",
-    "start": "ts-node openapi-to-mcp/index.ts",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run build",
-    "test": "npm run build && node dist/openapi-to-mcp/index.js --help"
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "clean": "npm run clean --workspaces",
+    "dev": "npm run dev --workspaces --if-present"
   },
   "keywords": [
     "mcp",
@@ -24,39 +21,5 @@
     "prompt"
   ],
   "author": "Rustho",
-  "license": "ISC",
-  "dependencies": {
-    "@apidevtools/swagger-parser": "^10.1.1",
-    "commander": "^11.1.0"
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
-  },
-  "peerDependencies": {
-    "@modelcontextprotocol/sdk": "^0.4.0",
-    "zod": "^3.21.0",
-    "openai": "^4.28.0",
-    "@anthropic-ai/sdk": "^0.18.0"
-  },
-  "peerDependenciesMeta": {
-    "@modelcontextprotocol/sdk": {
-      "optional": true
-    },
-    "zod": {
-      "optional": true
-    },
-    "openai": {
-      "optional": true
-    },
-    "@anthropic-ai/sdk": {
-      "optional": true
-    }
-  },
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md",
-    "CONTRIBUTING.md"
-  ]
+  "license": "ISC"
 }

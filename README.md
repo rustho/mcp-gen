@@ -7,6 +7,13 @@ This tool converts APIs into Model Control Protocol (MCP) format — used to con
 
 This tool converts OpenAPI/Swagger specifications into Model Control Protocol (MCP) format, making it easy to create AI agents that can interact with your APIs.
 
+## Project Structure
+
+This is a monorepo containing two packages:
+
+- `packages/core`: The main OpenAPI-to-MCP CLI tool and library
+- `packages/playground`: A web application for testing the tool in your browser
+
 ## Features
 
 - 📥 Generate universal mcp.json from OpenAPI/Swagger files
@@ -217,29 +224,7 @@ The tool automatically searches for suitable GET endpoints to use as state schem
 
 You can also manually specify an endpoint using the `--state-endpoint` option.
 
-## Project Structure
-
-```
-openapi-to-mcp/
-├── index.ts              // CLI entry point
-├── parser.ts             // Swagger parsing
-├── generator/
-│   ├── extractor.ts      // Convert Swagger → actions
-│   ├── extractState.ts   // Extract state schema
-│   ├── mcpBuilder.ts     // Generate MCP JSON
-│   ├── exporters/
-│   │   ├── toPrompt.ts
-│   │   ├── toFunctionSchemas.ts
-│   │   ├── toTemplates.ts
-│   │   ├── generateMcpServer.ts
-│   │   ├── generateExecutor.ts
-│   │   ├── generateHandlers.ts
-│   │   ├── simulate.ts
-│   │   ├── toLangChainTools.ts
-│   │   └── toOpenAIPlugin.ts
-```
-
-## Development and Publishing
+## Development
 
 ### Local Development
 
@@ -248,13 +233,17 @@ openapi-to-mcp/
    ```bash
    npm install
    ```
-3. Build the project:
+3. Build all packages:
    ```bash
    npm run build
    ```
-4. Run locally:
+4. Run the core package locally:
    ```bash
-   npm start -- path/to/swagger.yaml
+   npm start --workspace=openapi-to-mcp -- path/to/swagger.yaml
+   ```
+5. Start the playground:
+   ```bash
+   npm run dev --workspace=openapi-to-mcp-playground
    ```
 
 ### Publishing to npm
@@ -268,7 +257,7 @@ openapi-to-mcp/
 2. Build and publish:
    ```bash
    npm run build
-   npm publish --access public
+   npm publish --workspace=openapi-to-mcp --access public
    ```
 
 #### Automated Publishing via GitHub Actions
@@ -276,15 +265,12 @@ openapi-to-mcp/
 This project uses GitHub Actions for CI/CD to automatically publish new versions to npm when a new tag is pushed:
 
 1. Update version in package.json:
-
    ```bash
-   npm version patch   # or minor/major
+   npm version patch --workspace=openapi-to-mcp   # or minor/major
    ```
-
    This will automatically create a git tag.
 
 2. Push the new tag to GitHub:
-
    ```bash
    git push origin --tags
    ```

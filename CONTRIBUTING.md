@@ -1,6 +1,6 @@
-# Contributing to MCP-Gen
+# Contributing to OpenAPI-to-MCP
 
-🎉 First off, thanks for taking the time to contribute! MCP-Gen is open to improvements, new ideas, and fixes — so let's build something great together.
+🎉 First off, thanks for taking the time to contribute! OpenAPI-to-MCP is open to improvements, new ideas, and fixes — so let's build something great together.
 
 ---
 
@@ -11,8 +11,8 @@ Click the **Fork** button in the top-right corner of the GitHub page.
 
 ### 2. Clone your fork
 ```bash
-git clone https://github.com/your-username/mcp-gen.git
-cd mcp-gen
+git clone https://github.com/your-username/openapi-to-mcp.git
+cd openapi-to-mcp
 ```
 
 ### 3. Install dependencies
@@ -56,4 +56,4 @@ Go to GitHub, open a PR from your branch, describe the change, and wait for revi
 
 Feel free to open an issue or start a discussion — we're happy to support you!
 
-Thanks for being part of the MCP-Gen community 🚀 
+Thanks for being part of the OpenAPI-to-MCP community 🚀 

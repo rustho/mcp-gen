@@ -1,5 +1,5 @@
 # Source files
-mcp-gen/
+openapi-to-mcp/
 *.ts
 !*.d.ts
 
@@ -12,7 +12,7 @@ node_modules/
 PUBLISHING.md
 
 # Examples
-mcp-gen/examples/
+openapi-to-mcp/examples/
 
 # Editor specific files
 .vscode/
@@ -20,4 +20,9 @@ mcp-gen/examples/
 
 # Misc
 *.log
-.DS_Store 
+.DS_Store
+.prettierrc
+.eslintrc.js
+tests/
+docs/
+*.tgz 

@@ -12,7 +12,7 @@ import path from "path";
 const program = new Command();
 
 program
-  .name("mcp-gen")
+  .name("openapi-to-mcp")
   .description("Generate MCP files from OpenAPI/Swagger specifications")
   .version("1.0.0");
 

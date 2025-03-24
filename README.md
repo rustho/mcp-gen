@@ -1,4 +1,4 @@
-# MCP-Gen
+# OpenAPI-to-MCP
 
 Generate AI-friendly interfaces from your existing Swagger/OpenAPI specs.  
 This tool converts APIs into Model Control Protocol (MCP) format — used to control tools and environments via large language models.
@@ -20,29 +20,29 @@ This tool converts OpenAPI/Swagger specifications into Model Control Protocol (M
 
 ```bash
 # Install globally
-npm install -g mcp-gen
+npm install -g openapi-to-mcp
 
 # Or use directly with npx
-npx mcp-gen <swagger-file>
+npx openapi-to-mcp <swagger-file>
 ```
 
 ## Usage
 
 ```bash
 # Basic usage - generates all outputs
-mcp-gen path/to/swagger.yaml
+openapi-to-mcp path/to/swagger.yaml
 
 # Specify output directory
-mcp-gen path/to/swagger.yaml -o ./custom-output
+openapi-to-mcp path/to/swagger.yaml -o ./custom-output
 
 # Generate only specific formats
-mcp-gen path/to/swagger.yaml --prompt --functions
+openapi-to-mcp path/to/swagger.yaml --prompt --functions
 
 # Specify a particular endpoint for state schema
-mcp-gen path/to/swagger.yaml --state-endpoint /status
+openapi-to-mcp path/to/swagger.yaml --state-endpoint /status
 
 # See all options
-mcp-gen --help
+openapi-to-mcp --help
 ```
 
 ## Output Files
@@ -114,7 +114,7 @@ You can also manually specify an endpoint using the `--state-endpoint` option.
 ## Project Structure
 
 ```
-mcp-gen/
+openapi-to-mcp/
 ├── index.ts              // CLI entry point
 ├── parser.ts             // Swagger parsing
 ├── generator/

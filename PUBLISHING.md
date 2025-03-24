@@ -1,6 +1,6 @@
-# Publishing mcp-gen to npm
+# Publishing openapi-to-mcp to npm
 
-This document provides instructions for publishing mcp-gen to npm, both manually and automatically via GitHub Actions.
+This document provides instructions for publishing openapi-to-mcp to npm, both manually and automatically via GitHub Actions.
 
 ## Prerequisites
 

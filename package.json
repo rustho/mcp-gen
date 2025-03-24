@@ -1,18 +1,18 @@
 {
-  "name": "mcp-gen",
+  "name": "openapi-to-mcp",
   "version": "0.1.3",
   "description": "Model Control Protocol generator from OpenAPI/Swagger specifications",
-  "main": "dist/mcp-gen/index.js",
-  "types": "dist/mcp-gen/index.d.ts",
+  "main": "dist/openapi-to-mcp/index.js",
+  "types": "dist/openapi-to-mcp/index.d.ts",
   "bin": {
-    "mcp-gen": "dist/mcp-gen/index.js"
+    "openapi-to-mcp": "dist/openapi-to-mcp/index.js"
   },
   "scripts": {
-    "build": "tsc && chmod +x dist/mcp-gen/index.js",
-    "start": "ts-node mcp-gen/index.ts",
+    "build": "tsc && chmod +x dist/openapi-to-mcp/index.js",
+    "start": "ts-node openapi-to-mcp/index.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
-    "test": "npm run build && node dist/mcp-gen/index.js --help"
+    "test": "npm run build && node dist/openapi-to-mcp/index.js --help"
   },
   "keywords": [
     "mcp",

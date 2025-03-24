@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import { MCPJson, Action } from '../types';
+import fs from "fs";
+import path from "path";
+import { MCPJson, Action } from "../types";
 
 /**
  * Type definition for the ApiExecutor class
@@ -16,12 +16,16 @@ export interface ApiExecutor {
  * Generates an executor TypeScript file that can be used independently
  * from the MCP server for executing API calls
  */
-export function generateExecutor(mcpJson: MCPJson, outputPath: string, apiBaseUrl: string): void {
+export function generateExecutor(
+  mcpJson: MCPJson,
+  outputPath: string,
+  apiBaseUrl: string
+): void {
   const executorCode = `
 /**
  * API Executor for ${mcpJson.name}
- * Generated from ${mcpJson.description || 'OpenAPI spec'}
- * Version: ${mcpJson.version || '1.0.0'}
+ * Generated from ${mcpJson.description || "OpenAPI spec"}
+ * Version: ${mcpJson.version || "1.0.0"}
  */
 
 // API Executor - can be used with any framework or directly
@@ -48,17 +52,23 @@ export class ApiExecutor {
    * Get the current state of the API/system
    */
   async getState() {
-    ${mcpJson.stateSchema ? `
+    ${
+      mcpJson.stateSchema
+        ? `
     // Using ${mcpJson.stateSchema.description} for state
     try {
-      const response = await fetch(\`\${this.baseUrl}${mcpJson.stateSchema.endpoint || ''}\`);
+      const response = await fetch(\`\${this.baseUrl}${
+        mcpJson.stateSchema.endpoint || ""
+      }\`);
       return await response.json();
     } catch (error) {
       console.error('Error fetching state:', error);
       return { error: 'Failed to fetch state' };
-    }` : `
+    }`
+        : `
     // No state schema defined
-    return { message: 'No state schema defined' };`}
+    return { message: 'No state schema defined' };`
+    }
   }
 
   /**
@@ -90,7 +100,8 @@ ${generateActionHandlers(mcpJson)}
  * Helper function to build URL with query parameters
  */
 function buildUrl(baseUrl: string, path: string, queryParams: Record<string, any> = {}): string {
-  const url = new URL(path, baseUrl);
+  const fullUrl = \`\${baseUrl}\${path}\`;
+  const url = new URL(fullUrl);
   
   Object.entries(queryParams).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
@@ -113,18 +124,29 @@ function buildUrl(baseUrl: string, path: string, queryParams: Record<string, any
 //   console.log('Current state:', state);
 //   
 //   // Execute an action
-//   ${mcpJson.actions && mcpJson.actions.length > 0 ? 
-      `const result = await api.execute('${mcpJson.actions[0].action}', ${
-        JSON.stringify(generateSampleParams(mcpJson.actions[0]), null, 2)
-      });` : 
-      `// const result = await api.execute('actionName', { param1: 'value1' });`}
+//   ${
+    mcpJson.actions && mcpJson.actions.length > 0
+      ? `const result = await api.execute('${
+          mcpJson.actions[0].action
+        }', ${JSON.stringify(
+          generateSampleParams(mcpJson.actions[0]),
+          null,
+          2
+        )});`
+      : `// const result = await api.execute('actionName', { param1: 'value1' });`
+  }
 // }
 //
 // main().catch(console.error);
 `;
 
-  fs.writeFileSync(path.resolve(outputPath, 'executor.ts'), executorCode.trim());
-  console.log(`✅ Generated API executor at ${path.join(outputPath, 'executor.ts')}`);
+  fs.writeFileSync(
+    path.resolve(outputPath, "executor.ts"),
+    executorCode.trim()
+  );
+  console.log(
+    `✅ Generated API executor at ${path.join(outputPath, "executor.ts")}`
+  );
 }
 
 /**
@@ -132,47 +154,60 @@ function buildUrl(baseUrl: string, path: string, queryParams: Record<string, any
  */
 function generateActionHandlers(mcpJson: MCPJson): string {
   if (!mcpJson.actions || mcpJson.actions.length === 0) {
-    return '      // No actions defined';
+    return "      // No actions defined";
   }
 
-  return mcpJson.actions.map((action: Action) => {
-    const { path, method } = action;
-    
-    // Extract path parameters
-    const pathParams = (path.match(/{([^}]+)}/g) || [])
-      .map(param => param.substring(1, param.length - 1));
-    
-    // Get query parameters (params that aren't in the path)
-    const queryParams = action.params 
-      ? Object.keys(action.params).filter(param => !pathParams.includes(param))
-      : [];
-    
-    // Format the path with template strings for path parameters
-    const formattedPath = path.replace(/{([^}]+)}/g, '${params.$1}');
-    
-    // Generate handler based on the HTTP method
-    switch (method) {
-      case 'GET':
-        return `      case '${action.action}':
+  return mcpJson.actions
+    .map((action: Action) => {
+      const { path, method } = action;
+
+      // Extract path parameters
+      const pathParams = (path.match(/{([^}]+)}/g) || []).map((param) =>
+        param.substring(1, param.length - 1)
+      );
+
+      // Get query parameters (params that aren't in the path)
+      const queryParams = action.params
+        ? Object.keys(action.params).filter(
+            (param) => !pathParams.includes(param)
+          )
+        : [];
+
+      // Format the path with template strings for path parameters
+      const formattedPath = path.replace(/{([^}]+)}/g, "${params.$1}");
+
+      // Generate handler based on the HTTP method
+      switch (method) {
+        case "GET":
+          return `      case '${action.action}':
         return async (params: any) => {
-          ${queryParams.length > 0 
-            ? `const queryObj = {};
-          ${queryParams.map(param => `if (params.${param} !== undefined) queryObj['${param}'] = params.${param};`).join('\n          ')}
+          ${
+            queryParams.length > 0
+              ? `const queryObj = {};
+          ${queryParams
+            .map(
+              (param) =>
+                `if (params.${param} !== undefined) queryObj['${param}'] = params.${param};`
+            )
+            .join("\n          ")}
           const url = buildUrl(this.baseUrl, \`${formattedPath}\`, queryObj);`
-            : `const url = \`\${this.baseUrl}${formattedPath}\`;`}
+              : `const url = \`\${this.baseUrl}${formattedPath}\`;`
+          }
           
           const response = await fetch(url);
           return await response.json();
         };`;
-        
-      case 'POST':
-      case 'PUT':
-      case 'PATCH':
-        return `      case '${action.action}':
+
+        case "POST":
+        case "PUT":
+        case "PATCH":
+          return `      case '${action.action}':
         return async (params: any) => {
           const url = \`\${this.baseUrl}${formattedPath}\`;
           const bodyParams = {...params};
-          ${pathParams.map(param => `delete bodyParams.${param};`).join('\n          ')}
+          ${pathParams
+            .map((param) => `delete bodyParams.${param};`)
+            .join("\n          ")}
           
           const response = await fetch(url, {
             method: '${method}',
@@ -184,9 +219,9 @@ function generateActionHandlers(mcpJson: MCPJson): string {
           
           return await response.json();
         };`;
-        
-      case 'DELETE':
-        return `      case '${action.action}':
+
+        case "DELETE":
+          return `      case '${action.action}':
         return async (params: any) => {
           const url = \`\${this.baseUrl}${formattedPath}\`;
           
@@ -196,9 +231,9 @@ function generateActionHandlers(mcpJson: MCPJson): string {
           
           return await response.json();
         };`;
-        
-      default:
-        return `      case '${action.action}':
+
+        default:
+          return `      case '${action.action}':
         return async (params: any) => {
           const url = \`\${this.baseUrl}${formattedPath}\`;
           
@@ -208,8 +243,9 @@ function generateActionHandlers(mcpJson: MCPJson): string {
           
           return await response.json();
         };`;
-    }
-  }).join('\n\n');
+      }
+    })
+    .join("\n\n");
 }
 
 /**
@@ -217,26 +253,26 @@ function generateActionHandlers(mcpJson: MCPJson): string {
  */
 function generateSampleParams(action: Action): Record<string, string> {
   if (!action.params) return {};
-  
+
   const result: Record<string, string> = {};
-  
+
   for (const [param, type] of Object.entries(action.params)) {
     // Create sample values based on parameter type
     switch (type.toLowerCase()) {
-      case 'integer':
-        result[param] = '1';
+      case "integer":
+        result[param] = "1";
         break;
-      case 'number':
-        result[param] = '1.0';
+      case "number":
+        result[param] = "1.0";
         break;
-      case 'boolean':
-        result[param] = 'true';
+      case "boolean":
+        result[param] = "true";
         break;
-      case 'array':
-        result[param] = '[]';
+      case "array":
+        result[param] = "[]";
         break;
-      case 'object':
-        result[param] = '{}';
+      case "object":
+        result[param] = "{}";
         break;
       default:
         // For path parameters, use a placeholder
@@ -247,6 +283,6 @@ function generateSampleParams(action: Action): Record<string, string> {
         }
     }
   }
-  
+
   return result;
-} 
+}

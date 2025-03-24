@@ -4,6 +4,11 @@ export type Action = {
   path: string;
   description?: string;
   params: Record<string, string>;
+  tags?: string[];
+  example?: {
+    description: string;
+    response: any;
+  };
 };
 
 export type StateSchema = {
@@ -31,4 +36,5 @@ export type MCPJson = {
     input: string;
     output: any;
   }[];
+  groups?: Record<string, string>;
 }; 

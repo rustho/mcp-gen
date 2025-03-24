@@ -1,8 +1,10 @@
 import { Action, MCPJson } from "./types";
 import { extractStateSchema } from "./extractState";
+import { extractGroups } from "./extractor";
 
 export function buildMCPJson(api: any, actions: Action[], metadata = {}, stateEndpoint?: string): MCPJson {
   const state = extractStateSchema(api, stateEndpoint);
+  const groups = extractGroups(api);
 
   return {
     name: "Generated MCP",
@@ -28,6 +30,7 @@ export function buildMCPJson(api: any, actions: Action[], metadata = {}, stateEn
           example: state.example
         }
       : undefined,
-    examples: []
+    examples: [],
+    groups
   };
 } 

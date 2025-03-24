@@ -1,25 +1,26 @@
 /**
  * Handler for deletePet
- * Delete a pet
+ * Deletes a pet.
  * 
  * HTTP Method: DELETE
- * Path: /pets/{petId}
+ * Path: /pet/{petId}
  */
 import { z } from "zod";
 
 // Parameter schema definition
 export const paramSchema = {
-  petId: z.string().describe("petId")
+  api_key: z.string().describe("api_key"),
+  petId: z.number().describe("petId")
 };
 
 // Implementation of the handler
 export async function handler(params: any) {
   // Access to the executor's baseUrl
-  const baseUrl = this.baseUrl || "https://api.example.com";
+  const baseUrl = this.baseUrl || "https://petstore3.swagger.io/api/v3";
   
   try {
     // Make API request
-    const response = await fetch(`${baseUrl}/pets/${params.petId}`, {
+    const response = await fetch(`${baseUrl}/pet/${params.petId}`, {
       method: "DELETE"
     });
     
@@ -41,7 +42,8 @@ export async function handler(params: any) {
  * 
  * // Create params object with all required fields
  * const params = {
-   petId: "item-id"
+   api_key: "example-api_key",
+   petId: "1"
  * };
  * 
  * // Call the handler

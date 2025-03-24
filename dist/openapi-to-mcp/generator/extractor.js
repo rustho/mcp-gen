@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractActions = extractActions;
+exports.extractGroups = extractGroups;
 function extractActions(api) {
     const actions = [];
     for (const path in api.paths) {
@@ -13,6 +14,11 @@ function extractActions(api) {
                 path,
                 description: op.summary || op.description || `${method.toUpperCase()} ${path}`,
                 params: {},
+                tags: op.tags || [],
+                example: op.examples?.["application/json"] ? {
+                    description: op.summary || op.description || `${method.toUpperCase()} ${path}`,
+                    response: op.examples["application/json"].value
+                } : undefined
             };
             if (op.parameters) {
                 for (const param of op.parameters) {
@@ -30,5 +36,16 @@ function extractActions(api) {
         }
     }
     return actions;
+}
+function extractGroups(api) {
+    const groups = {};
+    if (api.tags) {
+        for (const tag of api.tags) {
+            if (tag.name && tag.description) {
+                groups[tag.name.toLowerCase()] = tag.description;
+            }
+        }
+    }
+    return groups;
 }
 //# sourceMappingURL=extractor.js.map

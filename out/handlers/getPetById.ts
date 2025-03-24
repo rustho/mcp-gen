@@ -1,25 +1,25 @@
 /**
  * Handler for getPetById
- * Info for a specific pet
+ * Find pet by ID.
  * 
  * HTTP Method: GET
- * Path: /pets/{petId}
+ * Path: /pet/{petId}
  */
 import { z } from "zod";
 
 // Parameter schema definition
 export const paramSchema = {
-  petId: z.string().describe("petId")
+  petId: z.number().describe("petId")
 };
 
 // Implementation of the handler
 export async function handler(params: any) {
   // Access to the executor's baseUrl
-  const baseUrl = this.baseUrl || "https://api.example.com";
+  const baseUrl = this.baseUrl || "https://petstore3.swagger.io/api/v3";
   
   try {
     // Make API request
-    const response = await fetch(`${baseUrl}/pets/${params.petId}`);
+    const response = await fetch(`${baseUrl}/pet/${params.petId}`);
     
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status} ${response.statusText}`);
@@ -39,7 +39,7 @@ export async function handler(params: any) {
  * 
  * // Create params object with all required fields
  * const params = {
-   petId: "item-id"
+   petId: "1"
  * };
  * 
  * // Call the handler

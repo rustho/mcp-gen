@@ -1,56 +1,159 @@
 import { MCPJson } from "../types";
 
 export function exportPrompt(mcp: MCPJson): string {
-  const { promptTemplate, actions, stateSchema } = mcp;
+  const { promptTemplate, actions, stateSchema, groups } = mcp;
 
-  const actionList = actions.map(a =>
-    `- ${a.action} (${a.method} ${a.path}): ${Object.keys(a.params).join(", ")}`
-  ).join("\n");
+  // Group actions by their tags
+  const groupedActions = groupActionsByTags(actions);
 
-  const firstExample = actions[0];
-  let exampleParams = "";
-  
-  if (firstExample) {
-    exampleParams = Object.entries(firstExample.params)
-      .map(([k, v]) => `"${k}": "${v}"`).join(",\n    ");
-  }
+  // Generate action descriptions
+  const actionDescriptions = Object.entries(groupedActions)
+    .map(([group, groupActions], index) => {
+      const groupTitle = getGroupTitle(group, groups, index + 1);
+      const actionList = groupActions
+        .map((a) => formatActionDescription(a))
+        .join("\n");
+      return `${groupTitle}:\n${actionList}`;
+    })
+    .join("\n\n");
 
-  let stateInfo = "";
-  if (stateSchema) {
-    stateInfo = `\n\nSystem State Information:
-The system maintains a state that can be queried. The state structure is:
-${formatStateSchema(stateSchema)}
+  // Generate state information
+  const stateInfo = stateSchema ? formatStateInfo(stateSchema) : "";
 
-Example state:
-${JSON.stringify(stateSchema.example, null, 2)}`;
-  }
+  // Generate example responses
+  const exampleResponses = generateExampleResponses(actions);
 
   return `${promptTemplate.prefix}
 
-${actionList}${stateInfo}
+AVAILABLE ACTIONS:
+${actionDescriptions}${stateInfo}
 
-You should return commands in JSON format, for example:
-${firstExample ? `{
-  "action": "${firstExample.action}",
+USER REQUEST:
+{{USER_TEXT}}
+
+INSTRUCTIONS:
+1. Analyze the user's request carefully
+2. Identify the most appropriate action from the available actions
+3. Extract relevant parameters from the request
+4. Format the response as a JSON object with "action" and "params" fields
+5. Ensure all required parameters are included
+6. Use appropriate data types for parameters
+
+RESPONSE FORMAT:
+{
+  "action": "actionName",
   "params": {
-    ${exampleParams}
+    "param1": "value1",
+    "param2": "value2"
   }
-}` : '{"action": "example", "params": {}}'}
-  `.trim();
 }
 
-function formatStateSchema(stateSchema: any): string {
-  const { type, properties, description } = stateSchema;
-  
-  if (type === 'object' && properties) {
-    const propLines = Object.entries(properties)
-      .map(([key, prop]: [string, any]) => `  - ${key}: ${prop.type || 'any'}`)
-      .join('\n');
-    
-    return `${description || 'State object'} (${type}):\n${propLines}`;
-  } else if (type === 'array') {
-    return `${description || 'State array'} (${type} of items)`;
-  } else {
-    return `${description || 'State'} (${type})`;
+Example responses:
+${exampleResponses}`.trim();
+}
+
+function groupActionsByTags(actions: any[]): Record<string, any[]> {
+  const groups: Record<string, any[]> = {};
+
+  actions.forEach((action) => {
+    // If action has no tags, put it in a default group
+    if (!action.tags || action.tags.length === 0) {
+      const defaultGroup = "other";
+      if (!groups[defaultGroup]) {
+        groups[defaultGroup] = [];
+      }
+      groups[defaultGroup].push(action);
+      return;
+    }
+
+    // Group by the first tag
+    const group = action.tags[0].toLowerCase();
+    if (!groups[group]) {
+      groups[group] = [];
+    }
+    groups[group].push(action);
+  });
+
+  return groups;
+}
+
+function getGroupTitle(
+  group: string,
+  groups?: Record<string, string>,
+  index?: number
+): string {
+  // If groups configuration exists, use it
+  if (groups && groups[group]) {
+    return `${index}. ${groups[group]}`;
   }
-} 
+
+  // Fallback to generated title if no configuration
+  return `${index}. ${
+    group.charAt(0).toUpperCase() + group.slice(1)
+  } Management`;
+}
+
+function formatActionDescription(action: any): string {
+  const params = Object.entries(action.params)
+    .map(([key, value]: [string, any]) => {
+      const description = getParamDescription(key, value);
+      return `     Parameters: ${key}${description ? ` (${description})` : ""}`;
+    })
+    .join("\n");
+
+  return `   - ${action.action} (${action.method} ${action.path}): ${
+    action.description || ""
+  }\n${params}`;
+}
+
+function getParamDescription(key: string, value: any): string {
+  // Add descriptions for common parameters
+  const descriptions: Record<string, string> = {
+    status: "available, pending, sold",
+    tags: "array of tag names",
+  };
+  return descriptions[key] || "";
+}
+
+function formatStateInfo(stateSchema: any): string {
+  const { type, properties, description } = stateSchema;
+
+  let stateDescription = "The system maintains a state of available data.";
+  if (description) {
+    stateDescription = description;
+  }
+
+  return `\n\nCURRENT SYSTEM STATE:\n${stateDescription}\nExample state:\n${JSON.stringify(
+    stateSchema.example,
+    null,
+    2
+  )}`;
+}
+
+function generateExampleResponses(actions: any[]): string {
+  // Generate examples for different types of operations
+  const examples = actions
+    .filter((a) => a.example)
+    .slice(0, 2)
+    .map((action, index) => {
+      const example = action.example;
+      return `${index + 1}. For "${example.description}":\n${JSON.stringify(
+        example.response,
+        null,
+        2
+      )}`;
+    })
+    .join("\n\n");
+
+  return (
+    examples ||
+    `1. For "Find all available items":\n${JSON.stringify(
+      {
+        action: actions[0]?.action || "example",
+        params: { status: "available" },
+      },
+      null,
+      2
+    )}`
+  );
+}

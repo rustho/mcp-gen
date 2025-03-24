@@ -14,6 +14,11 @@ export function extractActions(api: any): Action[] {
         description:
           op.summary || op.description || `${method.toUpperCase()} ${path}`,
         params: {},
+        tags: op.tags || [],
+        example: op.examples?.["application/json"] ? {
+          description: op.summary || op.description || `${method.toUpperCase()} ${path}`,
+          response: op.examples["application/json"].value
+        } : undefined
       };
 
       if (op.parameters) {
@@ -36,4 +41,18 @@ export function extractActions(api: any): Action[] {
   }
 
   return actions;
+}
+
+export function extractGroups(api: any): Record<string, string> {
+  const groups: Record<string, string> = {};
+  
+  if (api.tags) {
+    for (const tag of api.tags) {
+      if (tag.name && tag.description) {
+        groups[tag.name.toLowerCase()] = tag.description;
+      }
+    }
+  }
+
+  return groups;
 }

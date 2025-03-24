@@ -1,28 +1,144 @@
 [
   {
-    "action": "listPets",
-    "params": {
-      "limit": "integer"
-    }
-  },
-  {
-    "action": "createPet",
+    "action": "updatePet",
     "params": {
       "id": "integer",
       "name": "string",
-      "tag": "string"
+      "category": "object",
+      "photoUrls": "array",
+      "tags": "array",
+      "status": "string"
+    }
+  },
+  {
+    "action": "addPet",
+    "params": {
+      "id": "integer",
+      "name": "string",
+      "category": "object",
+      "photoUrls": "array",
+      "tags": "array",
+      "status": "string"
+    }
+  },
+  {
+    "action": "findPetsByStatus",
+    "params": {
+      "status": "string"
+    }
+  },
+  {
+    "action": "findPetsByTags",
+    "params": {
+      "tags": "array"
     }
   },
   {
     "action": "getPetById",
     "params": {
-      "petId": "string"
+      "petId": "integer"
+    }
+  },
+  {
+    "action": "updatePetWithForm",
+    "params": {
+      "petId": "integer",
+      "name": "string",
+      "status": "string"
     }
   },
   {
     "action": "deletePet",
     "params": {
-      "petId": "string"
+      "api_key": "string",
+      "petId": "integer"
+    }
+  },
+  {
+    "action": "uploadFile",
+    "params": {
+      "petId": "integer",
+      "additionalMetadata": "string"
+    }
+  },
+  {
+    "action": "getInventory",
+    "params": {}
+  },
+  {
+    "action": "placeOrder",
+    "params": {
+      "id": "integer",
+      "petId": "integer",
+      "quantity": "integer",
+      "shipDate": "string",
+      "status": "string",
+      "complete": "boolean"
+    }
+  },
+  {
+    "action": "getOrderById",
+    "params": {
+      "orderId": "integer"
+    }
+  },
+  {
+    "action": "deleteOrder",
+    "params": {
+      "orderId": "integer"
+    }
+  },
+  {
+    "action": "createUser",
+    "params": {
+      "id": "integer",
+      "username": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "password": "string",
+      "phone": "string",
+      "userStatus": "integer"
+    }
+  },
+  {
+    "action": "createUsersWithListInput",
+    "params": {}
+  },
+  {
+    "action": "loginUser",
+    "params": {
+      "username": "string",
+      "password": "string"
+    }
+  },
+  {
+    "action": "logoutUser",
+    "params": {}
+  },
+  {
+    "action": "getUserByName",
+    "params": {
+      "username": "string"
+    }
+  },
+  {
+    "action": "updateUser",
+    "params": {
+      "username": "string",
+      "id": "integer",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "password": "string",
+      "phone": "string",
+      "userStatus": "integer"
+    }
+  },
+  {
+    "action": "deleteUser",
+    "params": {
+      "username": "string"
     }
   },
   {

@@ -63,10 +63,25 @@ export async function handler(params: any) {
 
 ## Available Handlers
 
-- `listPets.ts`: List all pets
-- `createPet.ts`: Create a pet
-- `getPetById.ts`: Info for a specific pet
-- `deletePet.ts`: Delete a pet
+- `updatePet.ts`: Update an existing pet.
+- `addPet.ts`: Add a new pet to the store.
+- `findPetsByStatus.ts`: Finds Pets by status.
+- `findPetsByTags.ts`: Finds Pets by tags.
+- `getPetById.ts`: Find pet by ID.
+- `updatePetWithForm.ts`: Updates a pet in the store with form data.
+- `deletePet.ts`: Deletes a pet.
+- `uploadFile.ts`: Uploads an image.
+- `getInventory.ts`: Returns pet inventories by status.
+- `placeOrder.ts`: Place an order for a pet.
+- `getOrderById.ts`: Find purchase order by ID.
+- `deleteOrder.ts`: Delete purchase order by identifier.
+- `createUser.ts`: Create user.
+- `createUsersWithListInput.ts`: Creates list of users with given input array.
+- `loginUser.ts`: Logs user into the system.
+- `logoutUser.ts`: Logs out current logged in user session.
+- `getUserByName.ts`: Get user by user name.
+- `updateUser.ts`: Update user resource.
+- `deleteUser.ts`: Delete user resource.
 
 - `getState.ts`: Retrieve the current state of the system
 

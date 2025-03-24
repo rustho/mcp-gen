@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildMCPJson = buildMCPJson;
 const extractState_1 = require("./extractState");
+const extractor_1 = require("./extractor");
 function buildMCPJson(api, actions, metadata = {}, stateEndpoint) {
     const state = (0, extractState_1.extractStateSchema)(api, stateEndpoint);
+    const groups = (0, extractor_1.extractGroups)(api);
     return {
         name: "Generated MCP",
         description: "Auto-generated Model Control Protocol from OpenAPI",
@@ -28,7 +30,8 @@ function buildMCPJson(api, actions, metadata = {}, stateEndpoint) {
                 example: state.example
             }
             : undefined,
-        examples: []
+        examples: [],
+        groups
     };
 }
 //# sourceMappingURL=mcpBuilder.js.map

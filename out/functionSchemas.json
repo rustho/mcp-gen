@@ -1,22 +1,7 @@
 [
   {
-    "name": "listPets",
-    "description": "List all pets",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "limit": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "limit"
-      ]
-    }
-  },
-  {
-    "name": "createPet",
-    "description": "Create a pet",
+    "name": "updatePet",
+    "description": "Update an existing pet.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -26,50 +11,400 @@
         "name": {
           "type": "string"
         },
-        "tag": {
+        "category": {
+          "type": "object"
+        },
+        "photoUrls": {
+          "type": "array"
+        },
+        "tags": {
+          "type": "array"
+        },
+        "status": {
           "type": "string"
         }
       },
       "required": [
         "id",
         "name",
-        "tag"
+        "category",
+        "photoUrls",
+        "tags",
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "addPet",
+    "description": "Add a new pet to the store.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "object"
+        },
+        "photoUrls": {
+          "type": "array"
+        },
+        "tags": {
+          "type": "array"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "photoUrls",
+        "tags",
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "findPetsByStatus",
+    "description": "Finds Pets by status.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "findPetsByTags",
+    "description": "Finds Pets by tags.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "tags"
       ]
     }
   },
   {
     "name": "getPetById",
-    "description": "Info for a specific pet",
+    "description": "Find pet by ID.",
     "parameters": {
       "type": "object",
       "properties": {
         "petId": {
-          "type": "string"
+          "type": "integer"
         }
       },
       "required": [
         "petId"
+      ]
+    }
+  },
+  {
+    "name": "updatePetWithForm",
+    "description": "Updates a pet in the store with form data.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "petId": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "petId",
+        "name",
+        "status"
       ]
     }
   },
   {
     "name": "deletePet",
-    "description": "Delete a pet",
+    "description": "Deletes a pet.",
     "parameters": {
       "type": "object",
       "properties": {
-        "petId": {
+        "api_key": {
           "type": "string"
+        },
+        "petId": {
+          "type": "integer"
         }
       },
       "required": [
+        "api_key",
         "petId"
       ]
     }
   },
   {
+    "name": "uploadFile",
+    "description": "Uploads an image.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "petId": {
+          "type": "integer"
+        },
+        "additionalMetadata": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "petId",
+        "additionalMetadata"
+      ]
+    }
+  },
+  {
+    "name": "getInventory",
+    "description": "Returns pet inventories by status.",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "placeOrder",
+    "description": "Place an order for a pet.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "petId": {
+          "type": "integer"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "shipDate": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "petId",
+        "quantity",
+        "shipDate",
+        "status",
+        "complete"
+      ]
+    }
+  },
+  {
+    "name": "getOrderById",
+    "description": "Find purchase order by ID.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "orderId"
+      ]
+    }
+  },
+  {
+    "name": "deleteOrder",
+    "description": "Delete purchase order by identifier.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "orderId"
+      ]
+    }
+  },
+  {
+    "name": "createUser",
+    "description": "Create user.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "phone",
+        "userStatus"
+      ]
+    }
+  },
+  {
+    "name": "createUsersWithListInput",
+    "description": "Creates list of users with given input array.",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "loginUser",
+    "description": "Logs user into the system.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    }
+  },
+  {
+    "name": "logoutUser",
+    "description": "Logs out current logged in user session.",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "getUserByName",
+    "description": "Get user by user name.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username"
+      ]
+    }
+  },
+  {
+    "name": "updateUser",
+    "description": "Update user resource.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "username",
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "phone",
+        "userStatus"
+      ]
+    }
+  },
+  {
+    "name": "deleteUser",
+    "description": "Delete user resource.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username"
+      ]
+    }
+  },
+  {
     "name": "getState",
-    "description": "Get the current system state. List all pets",
+    "description": "Get the current system state. Finds Pets by status.",
     "parameters": {
       "type": "object",
       "properties": {},

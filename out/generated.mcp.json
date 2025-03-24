@@ -3,7 +3,7 @@
   "description": "Auto-generated Model Control Protocol from OpenAPI",
   "version": "1.0.0",
   "metadata": {
-    "generatedAt": "2025-03-24T07:19:15.095Z",
+    "generatedAt": "2025-03-24T09:37:04.710Z",
     "source": "OpenAPI 3.0",
     "sourceFile": "petstore.yaml"
   },
@@ -15,55 +15,291 @@
   },
   "actions": [
     {
-      "action": "listPets",
-      "method": "GET",
-      "path": "/pets",
-      "description": "List all pets",
-      "params": {
-        "limit": "integer"
-      }
-    },
-    {
-      "action": "createPet",
-      "method": "POST",
-      "path": "/pets",
-      "description": "Create a pet",
+      "action": "updatePet",
+      "method": "PUT",
+      "path": "/pet",
+      "description": "Update an existing pet.",
       "params": {
         "id": "integer",
         "name": "string",
-        "tag": "string"
-      }
+        "category": "object",
+        "photoUrls": "array",
+        "tags": "array",
+        "status": "string"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "addPet",
+      "method": "POST",
+      "path": "/pet",
+      "description": "Add a new pet to the store.",
+      "params": {
+        "id": "integer",
+        "name": "string",
+        "category": "object",
+        "photoUrls": "array",
+        "tags": "array",
+        "status": "string"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "findPetsByStatus",
+      "method": "GET",
+      "path": "/pet/findByStatus",
+      "description": "Finds Pets by status.",
+      "params": {
+        "status": "string"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "findPetsByTags",
+      "method": "GET",
+      "path": "/pet/findByTags",
+      "description": "Finds Pets by tags.",
+      "params": {
+        "tags": "array"
+      },
+      "tags": [
+        "pet"
+      ]
     },
     {
       "action": "getPetById",
       "method": "GET",
-      "path": "/pets/{petId}",
-      "description": "Info for a specific pet",
+      "path": "/pet/{petId}",
+      "description": "Find pet by ID.",
       "params": {
-        "petId": "string"
-      }
+        "petId": "integer"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "updatePetWithForm",
+      "method": "POST",
+      "path": "/pet/{petId}",
+      "description": "Updates a pet in the store with form data.",
+      "params": {
+        "petId": "integer",
+        "name": "string",
+        "status": "string"
+      },
+      "tags": [
+        "pet"
+      ]
     },
     {
       "action": "deletePet",
       "method": "DELETE",
-      "path": "/pets/{petId}",
-      "description": "Delete a pet",
+      "path": "/pet/{petId}",
+      "description": "Deletes a pet.",
       "params": {
-        "petId": "string"
-      }
+        "api_key": "string",
+        "petId": "integer"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "uploadFile",
+      "method": "POST",
+      "path": "/pet/{petId}/uploadImage",
+      "description": "Uploads an image.",
+      "params": {
+        "petId": "integer",
+        "additionalMetadata": "string"
+      },
+      "tags": [
+        "pet"
+      ]
+    },
+    {
+      "action": "getInventory",
+      "method": "GET",
+      "path": "/store/inventory",
+      "description": "Returns pet inventories by status.",
+      "params": {},
+      "tags": [
+        "store"
+      ]
+    },
+    {
+      "action": "placeOrder",
+      "method": "POST",
+      "path": "/store/order",
+      "description": "Place an order for a pet.",
+      "params": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string",
+        "complete": "boolean"
+      },
+      "tags": [
+        "store"
+      ]
+    },
+    {
+      "action": "getOrderById",
+      "method": "GET",
+      "path": "/store/order/{orderId}",
+      "description": "Find purchase order by ID.",
+      "params": {
+        "orderId": "integer"
+      },
+      "tags": [
+        "store"
+      ]
+    },
+    {
+      "action": "deleteOrder",
+      "method": "DELETE",
+      "path": "/store/order/{orderId}",
+      "description": "Delete purchase order by identifier.",
+      "params": {
+        "orderId": "integer"
+      },
+      "tags": [
+        "store"
+      ]
+    },
+    {
+      "action": "createUser",
+      "method": "POST",
+      "path": "/user",
+      "description": "Create user.",
+      "params": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      },
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "createUsersWithListInput",
+      "method": "POST",
+      "path": "/user/createWithList",
+      "description": "Creates list of users with given input array.",
+      "params": {},
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "loginUser",
+      "method": "GET",
+      "path": "/user/login",
+      "description": "Logs user into the system.",
+      "params": {
+        "username": "string",
+        "password": "string"
+      },
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "logoutUser",
+      "method": "GET",
+      "path": "/user/logout",
+      "description": "Logs out current logged in user session.",
+      "params": {},
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "getUserByName",
+      "method": "GET",
+      "path": "/user/{username}",
+      "description": "Get user by user name.",
+      "params": {
+        "username": "string"
+      },
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "updateUser",
+      "method": "PUT",
+      "path": "/user/{username}",
+      "description": "Update user resource.",
+      "params": {
+        "username": "string",
+        "id": "integer",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      },
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "action": "deleteUser",
+      "method": "DELETE",
+      "path": "/user/{username}",
+      "description": "Delete user resource.",
+      "params": {
+        "username": "string"
+      },
+      "tags": [
+        "user"
+      ]
     }
   ],
   "stateSchema": {
-    "description": "List all pets",
+    "description": "Finds Pets by status.",
     "type": "array",
     "properties": {},
     "example": [
       {
-        "id": 0,
-        "name": "example",
-        "tag": "example"
+        "id": 10,
+        "name": "doggie",
+        "category": {
+          "id": 1,
+          "name": "Dogs"
+        },
+        "photoUrls": [
+          "example"
+        ],
+        "tags": [
+          {
+            "id": 0,
+            "name": "example"
+          }
+        ],
+        "status": "available"
       }
     ]
   },
-  "examples": []
+  "examples": [],
+  "groups": {
+    "pet": "Everything about your Pets",
+    "store": "Access to Petstore orders",
+    "user": "Operations about user"
+  }
 }

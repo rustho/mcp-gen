@@ -19,9 +19,24 @@ export function loadTools(toolNames: string[] | "all" = "all"): Tool[] {
  * Available tool names:
  */
 export const availableTools = [
-  "listPets",
-  "createPet",
+  "updatePet",
+  "addPet",
+  "findPetsByStatus",
+  "findPetsByTags",
   "getPetById",
+  "updatePetWithForm",
   "deletePet",
+  "uploadFile",
+  "getInventory",
+  "placeOrder",
+  "getOrderById",
+  "deleteOrder",
+  "createUser",
+  "createUsersWithListInput",
+  "loginUser",
+  "logoutUser",
+  "getUserByName",
+  "updateUser",
+  "deleteUser",
   "getState",
 ];

@@ -1,4 +1,4 @@
-import { MCPJson } from '../types';
+import { MCPJson } from "../types";
 /**
  * Type definition for the ApiExecutor class
  * (exported for type checking in other files)

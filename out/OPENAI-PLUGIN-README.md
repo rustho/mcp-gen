@@ -8,7 +8,7 @@ To deploy this as an OpenAI plugin, follow these steps:
 
 1. **Host your API**
    
-   Make sure your API is publicly accessible at https://api.example.com
+   Make sure your API is publicly accessible at https://petstore3.swagger.io/api/v3
 
 2. **Copy plugin files to your server**
    
@@ -20,9 +20,9 @@ To deploy this as an OpenAI plugin, follow these steps:
 
 3. **Verify your plugin**
    
-   - Test that `https://api.example.com/.well-known/ai-plugin.json` is accessible
-   - Make sure `https://api.example.com/logo.png` is accessible
-   - Check that `https://api.example.com/openapi.yaml` returns your API specification
+   - Test that `https://petstore3.swagger.io/api/v3/.well-known/ai-plugin.json` is accessible
+   - Make sure `https://petstore3.swagger.io/api/v3/logo.png` is accessible
+   - Check that `https://petstore3.swagger.io/api/v3/openapi.yaml` returns your API specification
 
 4. **Register with OpenAI**
    

@@ -1,6 +1,6 @@
 {
   "name": "mcp-gen",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Model Control Protocol generator from OpenAPI/Swagger specifications",
   "main": "dist/mcp-gen/index.js",
   "types": "dist/mcp-gen/index.d.ts",

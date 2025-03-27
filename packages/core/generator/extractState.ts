@@ -85,7 +85,10 @@ export function extractStateSchema(api: any, stateEndpoint?: string): StateSchem
 }
 
 // Helper function to generate a simple example from schema
-function generateExampleFromSchema(schema: any): any {
+function generateExampleFromSchema(schema: any, depth: number = 0): any {
+  // Limit recursion depth to prevent stack overflow
+  if (depth > 5) return null;
+  
   if (!schema) return null;
   
   if (schema.example) return schema.example;
@@ -93,15 +96,17 @@ function generateExampleFromSchema(schema: any): any {
   if (schema.type === 'object' && schema.properties) {
     const result: Record<string, any> = {};
     
-    for (const [key, prop] of Object.entries(schema.properties as Record<string, any>)) {
-      result[key] = generateExampleFromSchema(prop);
+    // Limit number of properties to prevent explosion
+    const entries = Object.entries(schema.properties as Record<string, any>);
+    for (const [key, prop] of entries.slice(0, 5)) {
+      result[key] = generateExampleFromSchema(prop, depth + 1);
     }
     
     return result;
   }
   
   if (schema.type === 'array' && schema.items) {
-    const exampleItem = generateExampleFromSchema(schema.items);
+    const exampleItem = generateExampleFromSchema(schema.items, depth + 1);
     return exampleItem ? [exampleItem] : [];
   }
   
